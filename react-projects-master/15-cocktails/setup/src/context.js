@@ -9,9 +9,10 @@ const AppProvider = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState("a");
   const [cocktails, setCocktails] = useState([])
 
+
   //fetch API
 
-  const fetchDrinks = async () => {
+  const fetchDrinks = useCallback(async () => {
     setLoading(true)
     try {
       const response = await fetch(`${url}${searchTerm}`)
@@ -31,12 +32,12 @@ const AppProvider = ({ children }) => {
     } catch (error) {
       console.log(error)
     }
-  }
+  }, [searchTerm])
 
   //fetch every time when searchTerm is change
   useEffect(() => {
     fetchDrinks()
-  }, [searchTerm])
+  }, [searchTerm, fetchDrinks])
 
   return <AppContext.Provider value={{
     loading,
